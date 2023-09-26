@@ -1,0 +1,295 @@
+Day 1 <03.09.23>
+
+Beggining of the project.
+Feature extraction -> pitch and spectograms.
+Experimenting.
+
+-----------------------------------------------------------------------------------------
+
+Day 2 <04.09.23>
+
+Plans: 
+  make an algorithm to extract features and label notes
+  make a neural network to classify notes
+
+label notes - done
+neural network - wip (left for tomorrow)
+prep for training - done
+
+-----------------------------------------------------------------------------------------
+
+Day 3 <05.09.23>
+
+neural network - finished but not working
+I should preprocess the spectrograms and not just pass raw data
+IDEA - process the pitch and spectrogram in separate networks and then combine them
+
+I didnt finish. I think I will tomorrow. I should try to use sklearn for the pitch part.
+
+-----------------------------------------------------------------------------------------
+
+Day 4 <06.09.23>
+
+I used data science (numpy) to get the pitch of the notes and it worked well in most 
+cases yet it sometimes struggled to get the notes with same pitch correctly (A3 and A4)
+
+I plan to use the loudest point of spectrogram to help distinguish the octave correctly
+as well.
+
+-----------------------------------------------------------------------------------------
+
+Day 5 <07.09.23>
+
+I found out why the with harmonic and without harmonic data gave different results and 
+fixed it. I now want to identify problematic notes and try to fix them using harmonic 
+data.
+
+Problematic notes: A3 and A4; G3 and G4; D4 and D5
+
+There are still quite some problems but I will leave that for tomorrow.
+Also, tomorrow I will use the loudness spectrogram data to help distinguish the length
+of the note as well as rests.
+
+-----------------------------------------------------------------------------------------
+
+Day 6 <08.09.23>
+
+Rest day.
+
+-----------------------------------------------------------------------------------------
+
+Day 7 <09.09.23>
+
+Plan for today: fix remaining pitch inaccuracies.
+For now those are: G3 -> C3; A3 - D3; E4 - E3; G4 -> C3; A4 - D3; 
+
+-----------------------------------------------------------------------------------------
+
+Day 8 <10.09.23>
+
+I think I know the solution for pitch stuff. I should separate the wav files and only 
+then extract the features.
+
+That part is done. Inaccuracies for now: D3 - A3; F4 - D4 - C4 - E4 - F3 - E3; D4 - D5;
+F4 - C5; A4 - F4; F4 - F3; C3 - C4 - G3 - G4 - A3;
+
+Length using spectrogram was too easy. Now I will try to do rests.
+
+I decided to use sklearn and was amazed about the fact that the pitch predictions were
+almost 100% accurate without any corrections. I feel like my data science thing was 
+useless.
+
+Now I would implement same thing for length and rests.
+
+Length are working well.
+
+I will leave rests for tomorrow cause I am lazy.
+
+-----------------------------------------------------------------------------------------
+
+Day 9 <11.09.23>
+
+The rest model does not perform well. There could be two reasons:
+1. Lack of training data.
+2. Poor rest encoding and decoding implementation. 
+
+I will start by fixing the implementation.
+
+I think that I should make a separate model for rests specifically. But for today I will 
+just remove all of the rest stuff I have made in the currecnt model and see if everything 
+apart from rests works well.
+
+As of now, the combination of the two models work perfectly. The only problem is rests.
+I am very sattisfied with what I have achieved so far.
+
+-----------------------------------------------------------------------------------------
+
+Day 10 <12.09.23>
+
+Yep, I was lazy...
+
+-----------------------------------------------------------------------------------------
+
+Day 11 <13.09.23>
+
+I will try to fix the rests today or at the very least start fixing them.
+First, I will prepare training data and then I would try to think of a way to label them 
+properly.
+
+-----------------------------------------------------------------------------------------
+
+Day 12 <14.09.23>
+
+I tried to transcribe a yt video but it didnt work well. I will check everything to see 
+the cause but it is likely that the problem is in the video and not in my algorithm.
+
+The transcription service on the web actually worked quite well.
+
+-----------------------------------------------------------------------------------------
+
+Day 13 <15.09.23>
+
+I have spotted a ridicolous mistake in extractData function. Now the rests seemed to 
+start working a bit better yet there is a still an ammazingly big room for improvement.
+
+That could be fixed by adding more data.
+
+
+-----------------------------------------------------------------------------------------
+
+Day 14 <16.09.23>
+
+I have decided to make a separate, 3rd model for rests. For now I want to perfect 
+everything apart from rests and then I would start working on them as well.
+
+I would now add more training data for model to understand quite spaces better.
+
+-----------------------------------------------------------------------------------------
+
+Day 15 <17.09.23>
+
+Rest day.
+
+-----------------------------------------------------------------------------------------
+
+Day 16 <18.09.23>
+
+Today I have been experimenting with the length detection. I found out I was stupid 
+enough to make 16th and 8th mean the same to the model by converting the length to int 
+and then checking if it is equal to 0,25 or 0,5. 
+
+That ridicolous issue was fixed. Now I am trying to make the model work and I have 
+finally got to making the simpler version, so the one in which I pass only the length 
+of spectrogram and the col at which all values are less that -60 db.
+
+It seemed to be working better than the one to which I pass the whole spectrogram which 
+seemed really strange to me yet I am fine with that.
+
+I removed anything related to rests from training data and it seems the simpler 
+spectrogram model finally started to work properly. The 8th are decent. I would need 
+to check 16th now.
+
+Percussive part as well as averages didnt seem to work quite well so I removed them just 
+after introducing them. Now I am not sure how to increase the pitch accuracy as it still 
+sometimes mixes up things like A3 and A4 for instance.
+
+THE RESTS MODEL IS VERY GOOD. I was able to get decent results.
+
+I only see one big problem left for now that I am not sure how to solve. Let's say there 
+is a quarter note and then  half rest afterwards. The spect model responsible for note 
+length wouldn't be able to recognise the note since it has never seen 3/4 before.
+
+-----------------------------------------------------------------------------------------
+
+Day 17 <19.09.23>
+
+Today I didn't do much.
+
+I have added support for dotted notes which came out quite well.
+
+In terms of the problem related to 3/4 I believe it will be solved by adding that dotted 
+support.
+
+I have seen some problems about the rests model are still present and those could be 
+fixed by adding more data.
+
+I will probably at the very least start working on that data today.
+
+Adding dotted data for rests didn't have a positive effect so I have removed it. I will 
+start working on the flats and sharps now.
+
+I have added sharps support. The pitch model became much better in general though it is 
+still not always 100% accurate. That's what I should still work on.
+
+The sharps also require more work.
+
+The rests model still requires a lot of work.
+
+-----------------------------------------------------------------------------------------
+
+Day 18 <20.09.23>
+
+Today I didn't do much.
+
+I have checked all of my current problems. Here are they:
+- pitch model is not always 100% accurate
+- rests model sometimes puts additional rests and sometimes doesn't put them where they 
+are needed.
+- the spect length model also sometimes has problems. Especially with 8th and 16th as 
+well as dotted notes.
+
+I thought I could add harmonic information to help the spect long and rests models.
+
+Harmonic only did worse so I decided not to add it.
+
+I would like to make a test.
+
+56 notes. 56 identified.
+
+Pitches: 52/56 - 92.86%
+Lengths: 53/56 - 94.64%
+Rests: 48/56 - 85.71%
+
+That's it for today...
+
+-----------------------------------------------------------------------------------------
+
+Day 19 <21.09.23>
+
+In order to make the rests model perform better, I could think of these:
+1. Add more data. Diverse data would make it study and learn more.
+2. Don't pass the raw data but rather the data that has been processed in some way. 
+
+I have also added common.py file where I have put all the functions and variables used 
+in different files to reduce redundancy.
+
+-----------------------------------------------------------------------------------------
+
+Day 20 <22.09.23>
+
+Today I have worked on the common.py file and have added the imports of its functions to all of the files with models and predicts. 
+
+That really simplified the code and improved the readability.
+
+I have also added functionality to train several models simutaniously (although that was likely not needed).
+
+I must continue tomorrow, I am too tired to work now...
+
+-----------------------------------------------------------------------------------------
+
+Day 21 <23.09.23>
+
+Bruh, I did nothing that day.
+
+-----------------------------------------------------------------------------------------
+
+Day 22 <24.09.23>
+
+Today, I have an amazing idea about how to improve the performance and accuracy of the 
+pitch model. I thought of providing it with information about previous note so that the 
+variation of the pitch caused by different previous notes would not be as significant 
+problem as it was before.
+
+Also, I have thought of better way to create the training data - by creating the files 
+programmatically and not by hand. That would allow me to create diversity easily.
+
+Now I just need to implement those two.
+
+The pitch model was certainly improved. In current test there were only like 3 inaccuracies 
+and those were type of A3 instead of A4.
+
+The code for creating training data is ready. It will allow me to do stuff much faster.
+
+-----------------------------------------------------------------------------------------
+
+Day 23 <25.09.23>
+
+Today I have used the new code to create more diverse data for the pitch model. The 
+training became so slow I could play a few PUBG games and it will still not finish. Jokes 
+aside I have seen that after all the model improved. 
+
+Now I really need to focus on improving the length and rests model as those really 
+destory the overall look of the sheet.
+
+Final thought - to improve my length model I should add data with dotted notes as those are the ones 
+that cause the most problems.
